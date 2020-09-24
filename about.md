@@ -1,0 +1,1 @@
+This is a python program being developed by me that will allow an owner of a second hand store maintain a database of the products they are selling. I am focusing on the first option of the prompt right now which will allow the user to insert or update or delete a table entry. The next part would be to make a database for purchase.
