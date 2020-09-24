@@ -1,5 +1,6 @@
 #!/usr/bin/python -tt
 import mysql.connector
+import datetime
 
 def connnect2db():
     config = {
@@ -43,6 +44,37 @@ def prompt1():
         else:
             print("Invalid Selection. Enter correct number.")
 
+def showcategories():
+    prompt=True
+    while(prompt):
+        print("List of categories available: ")
+        print("1. T-Shirts")
+        option=input("Choose option: ")
+        option=option.strip()
+        if(option==str(1)):
+            return("tshirts")
+            prompt=False
+        else:
+            print("option invalid.")
+
+def insert(con):
+    option=showcategories()
+    date=str(datetime.date.today())
+    print(date)
+    cursor = con.cursor()
+    print(cursor)
+    print("Enter values as prompted.")
+    pid=input("Enter product id: ")
+    description=input("Enter product description: ")
+    price=input("Enter product price: ")
+    sold="No"
+    sql=f"INSERT INTO tshirts VALUES('{pid}', '{description}', '{date}', '{price}', '{sold}');"
+    print(f"SQL to be executed: {sql}")
+    cursor.execute(sql)
+    con.commit()
+    cursor.close()
+    con.close()
+
 # Prompt appearing after selectig the first option
 def prompt1_1(selection):
     if(selection==1):
@@ -72,12 +104,20 @@ def prompt1_1(selection):
             else:
                 print("Invalid selection")
 
-
+def run_prompt_1_1(selection):
+    if(selection==1):
+        con=connnect2db()
+        insert(con)
+    elif(selection==2):
+        print("under progress")
+    elif(selection==3):
+        print("under progress")
 #the main fucntion
 def main():
+    # connnect2db()
     selection = prompt1()
     selection=prompt1_1(selection)
-    # connnect2db()
+    run_prompt_1_1(selection)
 
 if __name__ == '__main__':
   main()
