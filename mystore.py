@@ -80,6 +80,21 @@ def insert(con):
     cursor.close()
     con.close()
 
+def finditem(con):
+    cursor=con.cursor()
+    print("Choose category to search from: ")
+    selection=showcategories()
+    item_id=input("Enter Item Id: ")
+    item_id=item_id.strip()
+    query=f"SELECT * FROM {selection} WHERE item_id='{item_id}';"
+    print(f"SQL to be executed: {query}")
+    query=str(query)
+    cursor.execute(query)
+    print(cursor)
+    print("query carried out successfully")
+    for(item_id, description, date, price, sold) in cursor:
+        print("Item Id: {}\nDescription: {}\nDate of entry: {}\nPrice: {}\nSold: {}".format(item_id, description, date, price, sold)) 
+
 # Prompt appearing after selectig the first option
 def prompt1_1(selection):
     if(selection==1):
@@ -108,13 +123,16 @@ def prompt1_1(selection):
                 return(3)
             else:
                 print("Invalid selection")
+    if(selection==2):
+        return 2
 
 def run_prompt_1_1(selection):
     if(selection==1):
         con=connnect2db()
         insert(con)
     elif(selection==2):
-        print("under progress")
+        con=connnect2db()
+        finditem(con)
     elif(selection==3):
         print("under progress")
 #the main function
