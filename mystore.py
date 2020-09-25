@@ -15,6 +15,7 @@ def connnect2db():
     }
 
     con = mysql.connector.connect(**config)
+
     if(con):
         print("Connected!")
         print(f"connecton object: {con}")
@@ -116,7 +117,7 @@ def run_prompt_1_1(selection):
         print("under progress")
     elif(selection==3):
         print("under progress")
-#the main fucntion
+#the main function
 def main():
     # connnect2db()
     selection = prompt1()
