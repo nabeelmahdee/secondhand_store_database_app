@@ -1,11 +1,14 @@
 #!/usr/bin/python -tt
 import mysql.connector
 import datetime
+import getpass
 
 def connnect2db():
+    username=input("Enter Database Username: ")
+    password=getpass.getpass(prompt="Enter Database Password: ")
     config = {
-        'user': 'root',
-        'password': 'admin',
+        'user': f'{username}',
+        'password': f'{password}',
         'host': '127.0.0.1',
         'database': 'myshstore',
         'raise_on_warnings': True
@@ -26,8 +29,8 @@ def prompt1():
         print("Make a selection: ")
         print
         print("1. Add/Update Entry")
-        print("1. Check Inventory")
-        print("2. Sell Items")
+        print("2. Check Inventory")
+        print("3. Sell Items")
         selection = input(": ")
         if(selection==str(1)):
             print("You selected Add/Update Entry")
@@ -70,6 +73,7 @@ def insert(con):
     sold="No"
     sql=f"INSERT INTO tshirts VALUES('{pid}', '{description}', '{date}', '{price}', '{sold}');"
     print(f"SQL to be executed: {sql}")
+    print("Done.")
     cursor.execute(sql)
     con.commit()
     cursor.close()
