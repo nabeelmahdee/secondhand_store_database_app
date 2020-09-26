@@ -50,16 +50,19 @@ def prompt1():
 
 def showcategories():
     prompt=True
-    while(prompt):
-        print("List of categories available: ")
-        print("1. T-Shirts")
-        option=input("Choose option: ")
-        option=option.strip()
-        if(option==str(1)):
-            return("tshirts")
-            prompt=False
-        else:
-            print("option invalid.")
+    print("List of categories available: ")
+    print("1. T-Shirts")
+    print("2. Electronics")
+    option=input("Choose option: ")
+    option=option.strip()
+    if(option==str(1)):
+        return("tshirts")
+        prompt=False
+    elif(option==str(2)):
+        return("electronics")
+        prompt=False
+    else:
+        print("option invalid.")
 
 def insert(con):
     option=showcategories()
@@ -72,7 +75,7 @@ def insert(con):
     description=input("Enter product description: ")
     price=input("Enter product price: ")
     sold="No"
-    sql=f"INSERT INTO tshirts VALUES('{pid}', '{description}', '{date}', '{price}', '{sold}');"
+    sql=f"INSERT INTO {option} VALUES('{pid}', '{description}', '{date}', '{price}', '{sold}');"
     print(f"SQL to be executed: {sql}")
     print("Done.")
     cursor.execute(sql)
@@ -82,17 +85,28 @@ def insert(con):
 
 def finditem(con):
     cursor=con.cursor()
-    print("Choose category to search from: ")
-    selection=showcategories()
     item_id=input("Enter Item Id: ")
     item_id=item_id.strip()
-    query=f"SELECT * FROM {selection} WHERE item_id='{item_id}';"
+    query=f"SHOW TABLES;"
     print(f"SQL to be executed: {query}")
     query=str(query)
     cursor.execute(query)
     print(cursor)
     print("query carried out successfully")
-    for(item_id, description, date, price, sold) in cursor:
+
+    tables=[]
+    for table in cursor:
+        tables.append(table[0])
+        print(tables) # printed for debugging purposes
+
+    for table in tables:
+       query=f"SELECT * FROM {table} WHERE item_id='{item_id}';" 
+       print(f"SQL to be executed: {query}")
+       query=str(query)
+       cursor.execute(query)
+       print(cursor)
+       print("query carried out successfully")
+       for(item_id, description, date, price, sold) in cursor:
         print("Item Id: {}\nDescription: {}\nDate of entry: {}\nPrice: {}\nSold: {}".format(item_id, description, date, price, sold)) 
 
 # Prompt appearing after selectig the first option
@@ -134,10 +148,9 @@ def run_prompt_1_1(selection):
         con=connnect2db()
         finditem(con)
     elif(selection==3):
-        print("under progress")
+        print("To be added in the future.")
 #the main function
 def main():
-    # connnect2db()
     selection = prompt1()
     selection=prompt1_1(selection)
     run_prompt_1_1(selection)
