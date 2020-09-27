@@ -83,6 +83,25 @@ def insert(con):
     cursor.close()
     con.close()
 
+def delete(con):
+    option=showcategories()
+    # date=str(datetime.date.today())
+    # print(date)
+    cursor = con.cursor()
+    print(cursor)
+    print("Enter values as prompted.")
+    pid=input("Enter product id: ")
+    # description=input("Enter product description: ")
+    # price=input("Enter product price: ")
+    # sold="No"
+    sql=f"DELETE FROM {option} WHERE item_id='{pid}';"
+    print(f"SQL to be executed: {sql}")
+    print("Done.")
+    cursor.execute(sql)
+    con.commit()
+    cursor.close()
+    con.close()
+    
 def finditem(con):
     cursor=con.cursor()
     item_id=input("Enter Item Id: ")
@@ -100,7 +119,7 @@ def finditem(con):
         print(tables) # printed for debugging purposes
 
     for table in tables:
-       query=f"SELECT * FROM {table} WHERE item_id='{item_id}';" 
+       query=f"SELECT * FROM {table} WHERE item_id = '{item_id}';" 
        print(f"SQL to be executed: {query}")
        query=str(query)
        cursor.execute(query)
@@ -148,7 +167,9 @@ def run_prompt_1_1(selection):
         con=connnect2db()
         finditem(con)
     elif(selection==3):
-        print("To be added in the future.")
+        con=connnect2db()
+        delete(con)
+        
 #the main function
 def main():
     selection = prompt1()

@@ -9,3 +9,13 @@ command used:
         price FLOAT(4,2) NOT NULL,
         sold VARCHAR(3) NOT NULL
     )
+electronics
+command used:
+    CREATE TABLE electronics(
+        item_id CHAR(6) NOT NULL,
+        description VARCHAR(255) NOT NULL,
+        date DATE NOT NULL,
+        price FLOAT(4,2) NOT NULL,
+        sold VARCHAR(3) NOT NULL
+    )
+
