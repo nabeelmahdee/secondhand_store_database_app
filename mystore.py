@@ -1,26 +1,26 @@
 #!/usr/bin/python -tt
-import mysql.connector
+# import mysql.connector
 import datetime
-import getpass
+# import getpass
+from connection import connnect2db
+# def connnect2db():
+#     username=input("Enter Database Username: ")
+#     password=getpass.getpass(prompt="Enter Database Password: ")
+#     config = {
+#         'user': f'{username}',
+#         'password': f'{password}',
+#         'host': '127.0.0.1',
+#         'database': 'myshstore',
+#         'raise_on_warnings': True
+#     }
 
-def connnect2db():
-    username=input("Enter Database Username: ")
-    password=getpass.getpass(prompt="Enter Database Password: ")
-    config = {
-        'user': f'{username}',
-        'password': f'{password}',
-        'host': '127.0.0.1',
-        'database': 'myshstore',
-        'raise_on_warnings': True
-    }
+#     con = mysql.connector.connect(**config)
 
-    con = mysql.connector.connect(**config)
-
-    if(con):
-        print("Connected!")
-        print(f"connecton object: {con}")
-        print("returning con object...")
-        return con
+#     if(con):
+#         print("Connected!")
+#         print(f"connecton object: {con}")
+#         print("returning con object...")
+#         return con
 
 #the prompt1 function will return the selection made and it is the first thing that will run
 #upon opening the program
@@ -50,7 +50,7 @@ def prompt1():
 
 def showcategories():
     prompt=True
-    print("List of categories available: ")
+    print("Choose Category: ")
     print("1. T-Shirts")
     print("2. Electronics")
     option=input("Choose option: ")
@@ -64,36 +64,13 @@ def showcategories():
     else:
         print("option invalid.")
 
-def insert(con):
-    option=showcategories()
-    date=str(datetime.date.today())
-    print(date)
-    cursor = con.cursor()
-    print(cursor)
-    print("Enter values as prompted.")
-    pid=input("Enter product id: ")
-    description=input("Enter product description: ")
-    price=input("Enter product price: ")
-    sold="No"
-    sql=f"INSERT INTO {option} VALUES('{pid}', '{description}', '{date}', '{price}', '{sold}');"
-    print(f"SQL to be executed: {sql}")
-    print("Done.")
-    cursor.execute(sql)
-    con.commit()
-    cursor.close()
-    con.close()
 
 def delete(con):
     option=showcategories()
-    # date=str(datetime.date.today())
-    # print(date)
     cursor = con.cursor()
     print(cursor)
     print("Enter values as prompted.")
     pid=input("Enter product id: ")
-    # description=input("Enter product description: ")
-    # price=input("Enter product price: ")
-    # sold="No"
     sql=f"DELETE FROM {option} WHERE item_id='{pid}';"
     print(f"SQL to be executed: {sql}")
     print("Done.")
