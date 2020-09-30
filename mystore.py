@@ -105,6 +105,42 @@ def finditem(con):
        for(item_id, description, date, price, sold) in cursor:
         print("Item Id: {}\nDescription: {}\nDate of entry: {}\nPrice: {}\nSold: {}".format(item_id, description, date, price, sold)) 
 
+def update(con):
+    print("Select category to update: ")
+    option=showcategories()
+    cursor = con.cursor()
+    print(cursor)
+    print("Enter values as prompted.")
+    pid=input("Enter product id you want to update: ")
+    print("Choose field to update: ")
+    print("1. Description")
+    print("2. Price")
+    print("3. Date")
+    print("4. Sold or Not")
+    field_selected=""
+    value=""
+    choice=input(": ")
+    if(choice==str(1)):
+        value=input("Enter updated product description: ")
+        field_selected="description"
+    elif(choice==str(2)):
+        value=input("Enter updated product price: ")
+        field_selected="price"
+    elif(choice==str(3)):
+        value=input("Enter updated date YYYY-MM-DD: ")
+        field_selected="date"
+    elif(choice==str(4)):
+        value=input("Enter new status: ")
+        field_selected="sold"
+    value=str(value)
+    sql=f"UPDATE {option} SET {field_selected} = '{value}' WHERE item_id= '{pid}'"
+    print(f"SQL to be executed: {sql}")
+    print("Done.")
+    cursor.execute(sql)
+    con.commit()
+    cursor.close()
+    con.close()
+
 # Prompt appearing after selectig the first option
 def prompt1_1(selection):
     if(selection==1):
@@ -142,16 +178,28 @@ def run_prompt_1_1(selection):
         insert(con)
     elif(selection==2):
         con=connnect2db()
-        finditem(con)
+        update(con)
     elif(selection==3):
         con=connnect2db()
         delete(con)
+
+def run_prompt_1_2():
+        con=connnect2db()
+        finditem(con)
+        
+
         
 #the main function
 def main():
     selection = prompt1()
-    selection=prompt1_1(selection)
-    run_prompt_1_1(selection)
+    if(selection==1):
+        selection=prompt1_1(selection)
+        run_prompt_1_1(selection)
+    elif(selection==2):
+        run_prompt_1_2()
+    elif(selection==3):
+        print("Work in progress...")
+    
 
 if __name__ == '__main__':
   main()
